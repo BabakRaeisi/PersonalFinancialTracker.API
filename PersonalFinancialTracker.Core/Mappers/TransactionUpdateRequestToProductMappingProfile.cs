@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using PersonalFinancialTracker.Core.DTO;
 using PersonalFinancialTracker.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace PersonalFinancialTracker.Core.Mappers
@@ -15,7 +10,7 @@ namespace PersonalFinancialTracker.Core.Mappers
        public TransactionUpdateRequestToProductMappingProfile()
         {
             CreateMap< TransactionUpdateRequest,  Transaction>()
-                .ForMember(dest => dest.TransationId , opt => opt.MapFrom(src => src.TransactionID))
+                .ForMember(dest => dest.TransactionId , opt => opt.MapFrom(src => src.TransactionID))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.payor, opt => opt.MapFrom(src => src.Payor))
                 .ForMember(dest => dest.payee, opt => opt.MapFrom(src => src.Payee))

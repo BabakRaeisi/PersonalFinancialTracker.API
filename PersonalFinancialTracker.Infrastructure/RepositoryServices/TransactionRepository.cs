@@ -1,4 +1,5 @@
-﻿using PersonalFinancialTracker.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PersonalFinancialTracker.Core.Entities;
 using PersonalFinancialTracker.Core.RepositoryContracts;
 using PersonalFinancialTracker.Infrastructure.Context;
 using System;
@@ -26,29 +27,46 @@ namespace PersonalFinancialTracker.Infrastructure.RepositoryServices
             return Transaction;
         }
 
-        public Task<bool> DeleteTransaction(Guid TransactionID)
+        public async Task<bool> DeleteTransaction(Guid TransactionID)
         {
-            throw new NotImplementedException();
+           Transaction? existingTransaction = await _context.Transactions.FirstOrDefaultAsync(t => t.TransactionId == TransactionID);
+            if (existingTransaction == null) return false;
+            _context.Transactions.Remove(existingTransaction);
+            int affectedRows = await _context.SaveChangesAsync();
+             
+             return affectedRows > 0;
         }
 
-        public Task<Transaction?> GetTransactionByCondition(Expression<Func<Transaction, bool>> ConditionExpression)
-        {
-            throw new NotImplementedException();
+        public async Task<Transaction?> GetTransactionByCondition(Expression<Func<Transaction, bool>> ConditionExpression)
+        { 
+            return await _context.Transactions.FirstOrDefaultAsync(ConditionExpression);
         }
 
-        public Task<IEnumerable<Transaction>> GetTransactions()
+        public async Task<IEnumerable<Transaction>> GetTransactions()
         {
-            throw new NotImplementedException();
+           return await _context.Transactions.ToListAsync();
         }
 
-        public Task<IEnumerable<Transaction?>> GetTransactionsByConditionAsync(Expression<Func<Transaction, bool>> ConditionExpression)
+        public async Task<IEnumerable<Transaction?>> GetTransactionsByConditionAsync(Expression<Func<Transaction, bool>> ConditionExpression)
         {
-            throw new NotImplementedException();
+          return await _context.Transactions.Where(ConditionExpression).ToListAsync();
         }
 
-        public Task<Transaction?> UpdateTransaction(Transaction transaction)
+        public async Task<Transaction?> UpdateTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+           Transaction? existigTransaction = await _context.Transactions.FirstOrDefaultAsync(t => t.TransactionId == transaction.TransactionId);
+            if (existigTransaction == null) return null;
+
+            existigTransaction.Title = transaction.Title;
+            existigTransaction.payor = transaction.payor;
+            existigTransaction.payee = transaction.payee;
+            existigTransaction.Amount = transaction.Amount;
+            existigTransaction.Description = transaction.Description;
+            existigTransaction.TypeOfTransaction = transaction.TypeOfTransaction;
+            existigTransaction.Created = transaction.Created;
+             
+            await _context.SaveChangesAsync();
+            return existigTransaction; 
         }
     }
 }

@@ -2,6 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using PersonalFinancialTracker.Infrastructure.Context;
+using PersonalFinancialTracker.Core.RepositoryContracts;
+using PersonalFinancialTracker.Infrastructure.RepositoryServices;
+
+
 
 namespace PersonalFinancialTracker.Infrastructure
 {
@@ -13,6 +17,8 @@ namespace PersonalFinancialTracker.Infrastructure
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             // Register repositories or other infrastructure services if needed
+            services.AddScoped<IRepositoryServices, TransactionRepository>(); // Add this line
+
             return services;
         }
     }

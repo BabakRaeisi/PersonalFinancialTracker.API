@@ -5,6 +5,7 @@ using PersonalFinancialTracker.API.Middleware;
 using PersonalFinancialTracker.Core;
 using PersonalFinancialTracker.Infrastructure;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 //add InfrastructureLayer and CoreLayer
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddCore(builder.Configuration);
+builder.Services.AddCore();
 
 builder.Services.AddControllers();
 
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

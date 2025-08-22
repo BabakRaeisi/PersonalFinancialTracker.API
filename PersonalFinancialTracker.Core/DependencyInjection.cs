@@ -1,5 +1,4 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PersonalFinancialTracker.Core.Mappers;
@@ -9,18 +8,20 @@ using PersonalFinancialTracker.Core.Validators;
 
 namespace PersonalFinancialTracker.Core; 
  
-    public static class DependencyInjection
-    {
-        public static IServiceCollection AddCore(this IServiceCollection services,IConfiguration configuration)
+public static class DependencyInjection
+{
+   
+        public static IServiceCollection AddCore(this IServiceCollection services)
         {
-        // Register your core services here
-        // For example, if you have a service for handling transactions, register it
-        // Example:
-        // services.AddScoped<ITransactionService, TransactionService>();
-        services.AddAutoMapper(typeof(TransactionUpdateRequestToProductMappingProfile).Assembly);
-        services.AddValidatorsFromAssemblyContaining<TransactionAddRequestValidator>();
-        services.AddScoped<IFinancialTransactionServices, TransactionServices>();
-        return services;
+            // Register AutoMapper - scan the entire assembly for all Profile classes
+            services.AddAutoMapper(typeof(TransactionAddRequestToTransactionMappingProfile).Assembly);
+
+            // Register FluentValidation validators
+            services.AddValidatorsFromAssemblyContaining<TransactionAddRequestValidator>();
+
+            // Register core services
+            services.AddScoped<IFinancialTransactionServices, TransactionServices>();
+
+            return services;
         }
     }
- 

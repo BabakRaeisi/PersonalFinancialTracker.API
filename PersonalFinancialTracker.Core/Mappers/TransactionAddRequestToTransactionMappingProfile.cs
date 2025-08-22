@@ -9,9 +9,10 @@ namespace PersonalFinancialTracker.Core.Mappers
     {
         public TransactionAddRequestToTransactionMappingProfile()
         {
-            CreateMap< TransactionAddRequest, Transaction>()
-                .ForMember(dest => dest.TransationId, opt => opt.Ignore())
-                .ForMember(dest => dest.Title , opt => opt.MapFrom(src => src.Title))
+            CreateMap<TransactionAddRequest, Transaction>()
+                .ForMember(dest => dest.TransactionId, opt => opt.Ignore())
+                .ForMember(dest => dest.UserId, opt => opt.Ignore()) // Will be set by service
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.payor, opt => opt.MapFrom(src => src.Payor))
                 .ForMember(dest => dest.payee, opt => opt.MapFrom(src => src.Payee))
                 .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.Amount))

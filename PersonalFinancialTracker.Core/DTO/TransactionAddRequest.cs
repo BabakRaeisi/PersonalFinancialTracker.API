@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 
 namespace PersonalFinancialTracker.Core.DTO
 {
-    public record TransactionAddRequest( string Title, string Payor, string Payee, decimal Amount, string? Description, TransactionType TypeOfTransaction, DateTime Created)
+    public record TransactionAddRequest(
+        string Title, 
+        string Payor, 
+        string Payee, 
+        decimal Amount, 
+        string? Description, 
+        TransactionType TypeOfTransaction, 
+        DateTime Created)
     {
-        public TransactionAddRequest() : this( default, default, default, default, default, default, default)
+        // Don't include UserId here - it will come from JWT token
+        public TransactionAddRequest() : this(default, default, default, default, default, default, default)
         {
-
         }
     }
 }

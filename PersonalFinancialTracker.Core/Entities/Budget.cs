@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonalFinancialTracker.Core.Enums
+namespace PersonalFinancialTracker.Core.Entities
 {
-    public enum TransactionType
+    public  class Budget
     {
-        Income,
-        Expense
     }
 }
